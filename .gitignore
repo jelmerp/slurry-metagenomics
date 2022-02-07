@@ -1,3 +1,8 @@
 .nextflow.log*
 .nextflow/
 slurm-*
+data/
+refdata/
+results/
+software/
+sandbox/
