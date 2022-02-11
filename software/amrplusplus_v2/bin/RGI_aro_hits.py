@@ -4,7 +4,7 @@ import sys
 import csv
 
 
-def rgi_output(rgi_file):
+def rgi_output(rgi_file, sample_name):
     # Get the desired information from the RGI file
     with open(rgi_file, 'r') as rgifile:
 
@@ -33,23 +33,29 @@ def rgi_output(rgi_file):
         rgifile.close()
 
     # Get the name of the file to use for the three outputs
-    sample_name = rgi_file.split(".")
+    # rgi_file="A5_rgi_output.txt"
+    #sample_name = rgi_file.split("_")[0]
+    #sample_name = rgi_file.split(".")
 
-    perf_sample_name = sample_name
-    perf_sample_name.pop()
-    perf_sample_name.pop()
-    perf_sample_name.insert(1, '_rgi_perfect_hits.csv')
-    perf_file_name = ''.join(perf_sample_name)
+    perf_file_name = sample_name + '_rgi_perfect_hits.csv'
+    strict_file_name = sample_name + '_rgi_strict_hits.csv'
+    loose_file_name = sample_name + '_rgi_loose_hits.csv'
 
-    strict_sample_name = sample_name
-    strict_sample_name.pop()
-    strict_sample_name.insert(1, '_rgi_strict_hits.csv')
-    strict_file_name = ''.join(strict_sample_name)
+    #perf_sample_name = sample_name
+    #perf_sample_name.pop()
+    #perf_sample_name.pop()
+    #perf_sample_name.insert(1, '_rgi_perfect_hits.csv')
+    #perf_file_name = ''.join(perf_sample_name)
 
-    loose_sample_name = sample_name
-    loose_sample_name.pop()
-    loose_sample_name.insert(1, '_rgi_loose_hits.csv')
-    loose_file_name = ''.join(loose_sample_name)
+    #strict_sample_name = sample_name
+    #strict_sample_name.pop()
+    #strict_sample_name.insert(1, '_rgi_strict_hits.csv')
+    #strict_file_name = ''.join(strict_sample_name)
+
+    #loose_sample_name = sample_name
+    #loose_sample_name.pop()
+    #loose_sample_name.insert(1, '_rgi_loose_hits.csv')
+    #loose_file_name = ''.join(loose_sample_name)
 
     # Search the dictionary to see which of the three Cut_Offs exist
     perf_in_dict = False
@@ -101,4 +107,4 @@ def rgi_output(rgi_file):
 
 
 if __name__ == '__main__':
-    rgi_output(sys.argv[1])
+    rgi_output(sys.argv[1], sys.argv[2])
