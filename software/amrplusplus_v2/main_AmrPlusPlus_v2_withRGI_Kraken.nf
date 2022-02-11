@@ -356,7 +356,6 @@ process RunResistome {
         file("${sample_id}.group.tsv") into (megares_group_counts)
         file("${sample_id}.mechanism.tsv") into (megares_mech_counts)
         file("${sample_id}.class.tsv") into (megares_class_counts)
-        file("${sample_id}.type.tsv") into (megares_type_counts)
 
     """
     ${RESISTOME} -ref_fp ${amr} \
@@ -366,7 +365,6 @@ process RunResistome {
       -group_fp ${sample_id}.group.tsv \
       -mech_fp ${sample_id}.mechanism.tsv \
       -class_fp ${sample_id}.class.tsv \
-      -type_fp ${sample_id}.type.tsv \
       -t ${threshold}
     """
 }
@@ -406,7 +404,6 @@ process SamDedupRunResistome {
         file("${sample_id}.group.tsv") into (megares_dedup_group_counts)
         file("${sample_id}.mechanism.tsv") into (megares_dedup_mech_counts)
         file("${sample_id}.class.tsv") into (megares_dedup_class_counts)
-        file("${sample_id}.type.tsv") into (megares_dedup_type_counts)
 
     """
     ${RESISTOME} -ref_fp ${amr} \
@@ -416,7 +413,6 @@ process SamDedupRunResistome {
       -group_fp ${sample_id}.group.tsv \
       -mech_fp ${sample_id}.mechanism.tsv \
       -class_fp ${sample_id}.class.tsv \
-      -type_fp ${sample_id}.type.tsv \
       -t ${threshold}
     """
 }
@@ -506,7 +502,6 @@ process ExtractSNP {
       -group_fp ${sample_id}.group.tsv \
       -mech_fp ${sample_id}.mechanism.tsv \
       -class_fp ${sample_id}.class.tsv \
-      -type_fp ${sample_id}.type.tsv \
       -t ${threshold}
      """
 }
