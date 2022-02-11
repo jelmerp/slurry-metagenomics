@@ -1,0 +1,5 @@
+name: atlas-env
+channels:
+  - bioconda
+dependencies:
+  - metagenome-atlas=2.8.1
