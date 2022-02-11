@@ -511,7 +511,7 @@ process ExtractSNP {
 
 process RunRGI {
      tag { sample_id }
-     errorStrategy 'ignore'
+     /* errorStrategy 'ignore' */
 
 
      publishDir "${params.output}/RunRGI", mode: "symlink"
@@ -538,7 +538,6 @@ process RunRGI {
      """
 }
 
-
 process SNPconfirmation {
      tag { sample_id }
      errorStrategy 'ignore'
@@ -563,6 +562,7 @@ process SNPconfirmation {
 
 process Confirmed_AMR_hits {
      tag { sample_id }
+     errorStrategy 'ignore'
 
      publishDir "${params.output}/SNP_confirmed_counts", mode: "copy"
 
@@ -583,6 +583,7 @@ perfect_confirmed_counts.toSortedList().set { perfect_confirmed_amr_l_to_w }
 
 process Confirmed_ResistomeResults {
      tag {}
+     errorStrategy 'ignore'
 
      publishDir "${params.output}/Confirmed_ResistomeResults", mode: "copy"
 
@@ -637,7 +638,7 @@ process ExtractDedupSNP {
 
 process RunDedupRGI {
      tag { sample_id }
-     errorStrategy 'ignore'
+     /* errorStrategy 'ignore' */
      publishDir "${params.output}/RunDedupRGI", mode: "copy"
 
      input:
@@ -686,6 +687,7 @@ process DedupSNPconfirmation {
 
 process ConfirmDedupAMRHits {
      tag { sample_id }
+     errorStrategy 'ignore'
 
      publishDir "${params.output}/SNP_confirmed_counts", mode: "copy"
 
@@ -705,6 +707,7 @@ process ConfirmDedupAMRHits {
 dedup_perfect_confirmed_counts.toSortedList().set { dedup_perfect_confirmed_amr_l_to_w }
 
 process DedupSNPConfirmed_ResistomeResults {
+     errorStrategy 'ignore'
      tag {}
 
      publishDir "${params.output}/Confirmed_ResistomeResults", mode: "copy"
