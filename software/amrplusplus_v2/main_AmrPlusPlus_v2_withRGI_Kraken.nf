@@ -359,7 +359,7 @@ process RunResistome {
         file("${sample_id}.type.tsv") into (megares_type_counts)
 
     """
-    $baseDir/bin/resistome -ref_fp ${amr} \
+    ${RESISTOME} -ref_fp ${amr} \
       -annot_fp ${annotation} \
       -sam_fp ${sam} \
       -gene_fp ${sample_id}.gene.tsv \
@@ -409,7 +409,7 @@ process SamDedupRunResistome {
         file("${sample_id}.type.tsv") into (megares_dedup_type_counts)
 
     """
-    $baseDir/bin/resistome -ref_fp ${amr} \
+    ${RESISTOME} -ref_fp ${amr} \
       -annot_fp ${annotation} \
       -sam_fp ${sam} \
       -gene_fp ${sample_id}.gene.tsv \
@@ -499,7 +499,7 @@ process ExtractSNP {
 
      """
      awk -F "\\t" '{if (\$1!="@SQ" && \$1!="@RG" && \$1!="@PG" && \$1!="@HD" && \$3="RequiresSNPConfirmation" ) {print ">"\$1"\\n"\$10}}' ${sam} | tr -d '"'  > ${sample_id}.snp.fasta
-     $baseDir/bin/resistome -ref_fp ${amr} \
+     ${RESISTOME} -ref_fp ${amr} \
       -annot_fp ${annotation} \
       -sam_fp ${sam} \
       -gene_fp ${sample_id}.gene.tsv \
