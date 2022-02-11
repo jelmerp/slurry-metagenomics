@@ -9,7 +9,7 @@ Help() {
   echo
   echo "## $0: Run the AmrPlusPlus pipeline."
   echo
-  echo "## Syntax: $0 -o <output-dir> [ -p <snakemake-profile> ] [-h]"
+  echo "## Syntax: $0 -o <output-dir> [ -p <profile> ] [-h]"
   echo
   echo "## Required options:"
   echo "## -i STR     Input directory with FASTQ files"
@@ -98,7 +98,7 @@ echo -e "-------------------------\n"
 
 
 # CARD DATABASE ----------------------------------------------------------------
-## If running `RGI`` is included in the pipeline, then download the CARD db if needed,
+## If running `RGI` is included in the pipeline, then download the CARD db if needed,
 ## and create an argument to point the pipeline to the CARD db
 ## See https://github.com/meglab-metagenomics/amrplusplus_v2 main README
 if echo "$pipeline" | grep -q "RGI"; then
