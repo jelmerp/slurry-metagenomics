@@ -74,3 +74,5 @@ date
 ## 2. Added a line `mkdir -p {params.tmpdir}` in rule `run_checkm_lineage_wf` in file `binning.smk`
 ##    Did this because checkm was complaining that the --tmpdir should be a valid dir; presumably didn't exist.
 ## 3. Added same mkdir line in rule `run_all_checkm_lineage_wf` in file `genomes.smk`.
+
+## Snakemake files are in /users/PAS0471/jelmer/miniconda3/envs/atlas-env/lib/python3.8/site-packages/atlas/workflow/rules/binning.smk
