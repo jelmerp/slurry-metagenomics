@@ -31,8 +31,14 @@ Help() {
 
 # SETUP ------------------------------------------------------------------------
 ## Load software
-module load python
-source activate /fs/project/PAS0471/jelmer/conda/nextflow-21.10.6
+conda activate /fs/project/PAS0471/jelmer/conda/nextflow-21.10.6
+
+export -f conda
+export -f __conda_activate
+export -f __conda_reactivate
+export -f __add_sys_prefix_to_path
+export -f __conda_hashr
+export -f __conda_exe
 
 ## Option defaults
 amr_dir=software/amrplusplus_v2/
@@ -126,7 +132,7 @@ cd "$amr_dir" || exit 1
 ## Run the pipeline
 nextflow run "$pipeline" \
     -profile "$profile" $resume_arg $card_db_arg \
-    --reads "$fq_dir/*_R{1,2}.fastq.gz" \
+    --reads "$fq_dir/*_R{1,2}*fastq.gz" \
     --host "$host_fa" \
     --output "$out_dir"
 
