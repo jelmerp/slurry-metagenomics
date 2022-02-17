@@ -72,16 +72,15 @@ process RunQC {
         file("${sample_id}.trimmomatic.stats.log") into (trimmomatic_stats)
 
     """
-     trimmomatic \ 
-      PE \
-      -threads ${threads} \
-      $forward $reverse ${sample_id}.1P.fastq.gz ${sample_id}.1U.fastq.gz ${sample_id}.2P.fastq.gz ${sample_id}.2U.fastq.gz \
-      ILLUMINACLIP:${adapters}:2:30:10:3:TRUE \
-      LEADING:${leading} \
-      TRAILING:${trailing} \
-      SLIDINGWINDOW:${slidingwindow} \
-      MINLEN:${minlen} \
-      2> ${sample_id}.trimmomatic.stats.log
+    ${TRIMMOMATIC} PE \
+        -threads ${threads} \
+        $forward $reverse ${sample_id}.1P.fastq.gz ${sample_id}.1U.fastq.gz ${sample_id}.2P.fastq.gz ${sample_id}.2U.fastq.gz \
+        ILLUMINACLIP:${adapters}:2:30:10:3:TRUE \
+        LEADING:${leading} \
+        TRAILING:${trailing} \
+        SLIDINGWINDOW:${slidingwindow} \
+        MINLEN:${minlen} \
+        2> ${sample_id}.trimmomatic.stats.log
     """
 }
 
