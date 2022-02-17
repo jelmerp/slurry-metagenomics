@@ -2,6 +2,8 @@
 
 #SBATCH --account=PAS0471
 #SBATCH --time=96:00:00
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8G
 #SBATCH --output=slurm-amrpp-%j.out
 
 ## Help function
@@ -14,13 +16,14 @@ Help() {
   echo "## Required options:"
   echo "## -i STR     Input directory with FASTQ files"
   echo "## -o STR     Output directory for AmrPlusPlus"
+  echo "## -w STR     Scratch (work) output dir for AmrPlusPlus"
   echo "## -s STR     Host FASTA file"
   echo
   echo "## Other options:"
-  echo "## -r         Resume incomplete run (default: start from scratch)"
   echo "## -a STR     Directory with AmrPlusPlus software (GitHub repo) (default: 'software/amrplusplus_v2')"
   echo "## -p STR     Profile (default: 'singularity_slurm')"
   echo "## -l STR     Pipeline (default: 'main_AmrPlusPlus_v2_withRGI_Kraken.nf')"
+  echo "## -r         Resume incomplete run (default: start from scratch)"
   echo "## -h         Print this help message"
   echo
   echo "## Example command:"
@@ -32,13 +35,19 @@ Help() {
 # SETUP ------------------------------------------------------------------------
 ## Load software
 conda activate /fs/project/PAS0471/jelmer/conda/nextflow-21.10.6
-
+## The following is needed to make Conda work in the Nextflow workflow
 export -f conda
 export -f __conda_activate
 export -f __conda_reactivate
 export -f __add_sys_prefix_to_path
 export -f __conda_hashr
 export -f __conda_exe
+## Export mamba - https://github.com/mamba-org/mamba/issues/34
+mamba() { ~/miniconda3/bin/mamba "$@" ;}
+export -f mamba
+
+## Limit memory for Nextflow main process -- https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html
+export NXF_OPTS='-Xms1g -Xmx7g'
 
 ## Option defaults
 amr_dir=software/amrplusplus_v2/
@@ -52,10 +61,11 @@ host_fa=""
 out_dir=""
 
 ## Parse command-line options
-while getopts 'a:i:o:s:pl::rh' flag; do
+while getopts 'a:i:o:s:w:pl::rh' flag; do
   case "${flag}" in
   i) fq_dir="$OPTARG" ;;
   o) out_dir="$OPTARG" ;;
+  w) scratch_dir="$OPTARG" ;;
   s) host_fa="$OPTARG" ;;
   a) amr_dir="$OPTARG" ;;
   l) pipeline="$OPTARG" ;;
@@ -77,6 +87,7 @@ done
 
 ## Process params
 mkdir -p "$out_dir"
+mkdir -p "$scratch_dir"
 [[ $resume = true ]] && resume_arg="-resume"
 
 ## If dir and file paths are not absolute, make them absolute, because we have 
@@ -96,6 +107,7 @@ echo
 echo "## AmrPlusPlus software dir:        $amr_dir"
 echo "## FASTQ dir:                       $fq_dir"
 echo "## Host FASTA file:                 $host_fa"
+echo "## Scratch dir:                     $scratch_dir"
 echo "## Output dir:                      $out_dir"
 echo "## Pipeline nextflow file:          $pipeline"
 echo "## Profile:                         $profile"
@@ -134,7 +146,8 @@ nextflow run "$pipeline" \
     -profile "$profile" $resume_arg $card_db_arg \
     --reads "$fq_dir/*_R{1,2}*fastq.gz" \
     --host "$host_fa" \
-    --output "$out_dir"
+    --output "$out_dir" \
+     -w "$scratch_dir" \
 
 ## Report
 echo -e "\n## Done with script amprpp.sh"
