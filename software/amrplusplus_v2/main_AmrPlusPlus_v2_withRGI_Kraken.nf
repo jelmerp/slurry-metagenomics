@@ -513,7 +513,7 @@ process RunRGI {
      /* errorStrategy 'ignore' */
 
 
-     publishDir "${params.output}/RunRGI", mode: "symlink"
+     publishDir "${params.output}/RunRGI", mode: "copy"
 
      input:
          set sample_id, file(fasta) from megares_snp_fasta
