@@ -72,7 +72,7 @@ process RunQC {
         file("${sample_id}.trimmomatic.stats.log") into (trimmomatic_stats)
 
     """
-     ${JAVA} -jar ${TRIMMOMATIC} \
+     trimmomatic \ 
       PE \
       -threads ${threads} \
       $forward $reverse ${sample_id}.1P.fastq.gz ${sample_id}.1U.fastq.gz ${sample_id}.2P.fastq.gz ${sample_id}.2U.fastq.gz \
